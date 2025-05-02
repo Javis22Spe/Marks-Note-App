@@ -16,6 +16,7 @@ export default function App() {
       <Stack.Navigator
         initialRouteName="Welcome"
         screenOptions={{
+          gestureEnabled: true,
           headerShown: false, // hide headers for a full-screen look
         }}
       >

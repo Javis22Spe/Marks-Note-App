@@ -45,78 +45,77 @@ export default function SignupScreen({ navigation }) {
   };
 
   return (
-    <ImageBackground
-      source={{ uri: 'https://www.bing.com/images/search?q=picture+of+someone+taking+notes&id=C0D4125E6E161E8605CE97FD0A377FF51F89FF37&FORM=IACFIR' }}
-      style={styles.background}
-      resizeMode="cover"
-    >
       <SafeAreaView style={styles.safe}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
         <Text style={styles.backButtonText}>← Back</Text>
     </TouchableOpacity>
 
         <View style={styles.overlay}>
-          <Text style={styles.title}>Create Account</Text>
+          <View style={styles.move}>
+            <Text style={styles.title}>Create an Account</Text>
 
-          {/* Username Input Field */}
-          <TextInput
-            style={styles.input}
-            placeholder="Username"
-            placeholderTextColor="#ccc"
-            value={username}
-            onChangeText={setUsername}
-            autoCapitalize="none"
-          />
+                        
+              <TextInput
+                style={styles.input}
+                placeholder="Username"
+                placeholderTextColor="#ccc"
+                value={username}
+                onChangeText={setUsername}
+                autoCapitalize="none"
+              />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            placeholderTextColor="#ccc"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                placeholderTextColor="#ccc"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            placeholderTextColor="#ccc"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
+              <TextInput
+                style={styles.input}
+                placeholder="Password"
+                placeholderTextColor="#ccc"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+              />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Confirm Password"
-            placeholderTextColor="#ccc"
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            secureTextEntry
-          />
+              <TextInput
+                style={styles.input}
+                placeholder="Confirm Password"
+                placeholderTextColor="#ccc"
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry
+              />
 
-          <TouchableOpacity style={styles.button} onPress={handleSignUp} disabled={loading}>
-            {loading ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Text style={styles.buttonText}>Sign Up</Text>
-            )}
-          </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={handleSignUp} disabled={loading}>
+                {loading ? (
+                  <ActivityIndicator color="#fff" />
+                ) : (
+                  <Text style={styles.buttonText}>Sign Up</Text>
+                )}
+              </TouchableOpacity>
+          </View>
         </View>
       </SafeAreaView>
-    </ImageBackground>
+   
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-  },
+
   safe: {
     flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)', 
+  },
+  move: {
+    borderWidth: 3,
+    borderColor: 'red',
+    marginTop: 30
   },
   overlay: {
     flex: 1,
@@ -149,6 +148,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   backButtonText: {
+    borderWidth: 3,
+    borderColor: 'red',
     color: '#fff',
     fontSize: 16,
   },
