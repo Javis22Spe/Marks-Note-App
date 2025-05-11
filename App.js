@@ -3,7 +3,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-// Screens
+
 import WelcomeScreen from './screens/WelcomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
@@ -17,7 +17,7 @@ export default function App() {
         initialRouteName="Welcome"
         screenOptions={{
           gestureEnabled: true,
-          headerShown: false, // hide headers for a full-screen look
+          headerShown: false,
         }}
       >
         <Stack.Screen name="Welcome" component={WelcomeScreen} />

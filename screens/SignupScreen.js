@@ -9,6 +9,7 @@ import {
   ImageBackground,
   SafeAreaView,
 } from 'react-native';
+import Footer from '../components/Footer';
 
 export default function SignupScreen({ navigation }) {
   const [username, setUsername] = useState('');
@@ -17,7 +18,6 @@ export default function SignupScreen({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Function to validate email format
   const validateEmail = (email) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
@@ -38,23 +38,24 @@ export default function SignupScreen({ navigation }) {
     console.log('Signing up with:', username, email, password);
     setTimeout(() => {
       setLoading(false);
-      // Navigate or validate here
       alert('Account created!');
       navigation.navigate('Login');
     }, 2000);
   };
 
   return (
+<ImageBackground
+    source={require('../assets/logo2.jpeg')}
+      style={styles.background}
+      resizeMode="cover"
+    >
+
       <SafeAreaView style={styles.safe}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-        <Text style={styles.backButtonText}>← Back</Text>
-    </TouchableOpacity>
-
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Text style={styles.backButtonText}>←</Text>
+        </TouchableOpacity>
         <View style={styles.overlay}>
-          <View style={styles.move}>
-            <Text style={styles.title}>Create an Account</Text>
-
-                        
+            <Text style={styles.title}>Create an Account</Text>           
               <TextInput
                 style={styles.input}
                 placeholder="Username"
@@ -99,27 +100,26 @@ export default function SignupScreen({ navigation }) {
                   <Text style={styles.buttonText}>Sign Up</Text>
                 )}
               </TouchableOpacity>
-          </View>
+              <Footer/>
         </View>
       </SafeAreaView>
-   
+      </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-
+  background: {
+    flex: 1,
+    width: '100%',
+    height: '%',
+  },
   safe: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.6)', 
   },
-  move: {
-    borderWidth: 3,
-    borderColor: 'red',
-    marginTop: 30
-  },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     padding: 24,
     justifyContent: 'center',
   },
@@ -148,8 +148,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   backButtonText: {
-    borderWidth: 3,
-    borderColor: 'red',
     color: '#fff',
     fontSize: 16,
   },
