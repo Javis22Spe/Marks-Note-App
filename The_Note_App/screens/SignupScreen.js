@@ -9,6 +9,8 @@ import {
   ImageBackground,
   SafeAreaView,
 } from 'react-native';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebaseConfig';
 import Footer from '../components/Footer';
 
 export default function SignupScreen({ navigation }) {
@@ -23,87 +25,98 @@ export default function SignupScreen({ navigation }) {
     return emailRegex.test(email);
   };
 
-  const handleSignUp = () => {
+  const handleSignup = () => {
+    if (!username || !email || !password || !confirmPassword) {
+      alert("All fields are required");
+      return;
+    }
+
     if (!validateEmail(email)) {
-      alert('Please enter a valid email address!');
+      alert("Please enter a valid email address");
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("Passwords don't match!");
+      alert("Passwords do not match!");
       return;
     }
 
     setLoading(true);
-    console.log('Signing up with:', username, email, password);
-    setTimeout(() => {
-      setLoading(false);
-      alert('Account created!');
-      navigation.navigate('Login');
-    }, 2000);
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log("User signed up:", userCredential.user);
+        setLoading(false);
+        navigation.navigate('Login');
+      })
+      .catch((error) => {
+        alert(error.message);
+        setLoading(false);
+      });
   };
 
   return (
-<ImageBackground
-    source={require('../assets/logo2.jpeg')}
+    <ImageBackground
+      source={require('../assets/logo2.jpeg')}
       style={styles.background}
       resizeMode="cover"
     >
-
       <SafeAreaView style={styles.safe}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Text style={styles.backButtonText}>←</Text>
         </TouchableOpacity>
+
         <View style={styles.overlay}>
-            <Text style={styles.title}>Create an Account</Text>           
-              <TextInput
-                style={styles.input}
-                placeholder="Username"
-                placeholderTextColor="#ccc"
-                value={username}
-                onChangeText={setUsername}
-                autoCapitalize="none"
-              />
+          <Text style={styles.title}>Create an Account</Text>
 
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                placeholderTextColor="#ccc"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
+          <TextInput
+            style={styles.input}
+            placeholder="Username"
+            placeholderTextColor="#ccc"
+            value={username}
+            onChangeText={setUsername}
+            autoCapitalize="none"
+          />
 
-              <TextInput
-                style={styles.input}
-                placeholder="Password"
-                placeholderTextColor="#ccc"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-              />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            placeholderTextColor="#ccc"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
 
-              <TextInput
-                style={styles.input}
-                placeholder="Confirm Password"
-                placeholderTextColor="#ccc"
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                secureTextEntry
-              />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor="#ccc"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
 
-              <TouchableOpacity style={styles.button} onPress={handleSignUp} disabled={loading}>
-                {loading ? (
-                  <ActivityIndicator color="#fff" />
-                ) : (
-                  <Text style={styles.buttonText}>Sign Up</Text>
-                )}
-              </TouchableOpacity>
-              <Footer/>
+          <TextInput
+            style={styles.input}
+            placeholder="Confirm Password"
+            placeholderTextColor="#ccc"
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry
+          />
+
+          <TouchableOpacity style={styles.button} onPress={handleSignup} disabled={loading}>
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.buttonText}>Sign Up</Text>
+            )}
+          </TouchableOpacity>
+
+          <Footer />
         </View>
       </SafeAreaView>
-      </ImageBackground>
+    </ImageBackground>
   );
 }
 
@@ -111,11 +124,11 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     width: '100%',
-    height: '%',
+    height: '100%',
   },
   safe: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)', 
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
   },
   overlay: {
     flex: 1,

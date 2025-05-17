@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import Footer from '../components/Footer';
 
 
-export default function WelcomeScreen({ navigation }) {
+export default function LandingPage({ navigation }) {
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [loadingSignUp, setLoadingSignUp] = useState(false);
 

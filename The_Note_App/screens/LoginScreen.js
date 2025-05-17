@@ -9,33 +9,43 @@ import {
   ImageBackground,
   SafeAreaView,
 } from 'react-native';
+
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebaseConfig';
 import Footer from '../components/Footer';
-
-
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    if (!email || !password) {
+      alert('Please enter both email and password');
+      return;
+    }
+
     setLoading(true);
-    console.log('Logging in with:', email, password);
-    setTimeout(() => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log('User logged in:', userCredential.user);
       setLoading(false);
-    }, 2000);
+      navigation.navigate('Welcome'); // Go to WelcomeScreen
+    } catch (error) {
+      alert(error.message);
+      setLoading(false);
+    }
   };
 
   return (
     <ImageBackground
-    source={require('../assets/download.jpeg')}
+      source={require('../assets/download.jpeg')}
       style={styles.background}
       resizeMode="cover"
     >
       <SafeAreaView style={styles.safe}>
-
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-        <Text style={styles.backButtonText}>←</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Text style={styles.backButtonText}>←</Text>
         </TouchableOpacity>
 
         <View style={styles.overlay}>
@@ -66,10 +76,10 @@ export default function LoginScreen({ navigation }) {
             ) : (
               <Text style={styles.buttonText}>Login</Text>
             )}
-          </TouchableOpacity> 
-          <Footer
-          />
-        </View>  
+          </TouchableOpacity>
+
+          <Footer />
+        </View>
       </SafeAreaView>
     </ImageBackground>
   );
